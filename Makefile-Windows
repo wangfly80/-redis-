@@ -1,0 +1,59 @@
+CC      := gcc
+AR	:= ar
+ARAGS	:= -r
+LD      := ld
+DOPT    := -O0 -Wall -g3
+ROPT    := -O3
+CFLAGS  := $(DOPT)
+LDFLAGS := -shared -fpic
+LIBS	:= -lWs2_32
+SLIBS	:=  
+INC	:= ./
+SRCDIR 	:= ./
+OBJDIR 	:= ./
+OUTDIR	:= ./
+LIBDIR  := ./
+
+TARGET := $(OUTDIR)libpmoslibc.dll
+
+SHARELIB_OBJ := pmos_libcapi.o \
+			pmos_event.o \
+			pmos_net.o \
+			pmos_utils.o \
+			pmos_shm.o
+
+SHARELIB_OBJ := $(foreach file,$(SHARELIB_OBJ),$(OBJDIR)$(file))
+
+
+all:$(TARGET)
+	@echo "libpmoslibc"
+
+$(TARGET):$(SHARELIB_OBJ)
+	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
+
+$(OBJDIR)pmos_libcapi.o:$(SRCDIR)pmos_libcapi.c
+	$(CC) $(CFLAGS) -I $(INC) -c -o $@ $<
+
+$(OBJDIR)pmos_event.o:$(SRCDIR)pmos_event.c
+	$(CC) $(CFLAGS) -I $(INC) -c -o $@ $<
+
+$(OBJDIR)pmos_net.o:$(SRCDIR)pmos_net.c
+	$(CC) $(CFLAGS) -I $(INC) -c -o $@ $<
+
+$(OBJDIR)pmos_utils.o:$(SRCDIR)pmos_utils.c
+	$(CC) $(CFLAGS) -I $(INC) -c -o $@ $<
+
+$(OBJDIR)pmos_shm.o:$(SRCDIR)pmos_shm.c
+	$(CC) $(CFLAGS) -I $(INC) -c -o $@ $<
+
+.PHONY: clean
+
+clean:
+	@echo "$(SYSTEM)"
+	del .\libpmoslibc.dll .\libpmoslibc.a .\*.o
+
+.PHONY: install
+
+install: all
+	copy $(TARGET) $(ISCS_SRC_HOME)\out\lib
+	
