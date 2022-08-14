@@ -54,4 +54,4 @@ clean:
 .PHONY: install
 
 install: all
-	cp $(TARGET) $(ISCS_SRC_HOME)/out/lib
+	cp $(TARGET) /usr/local/lib

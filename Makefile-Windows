@@ -55,5 +55,5 @@ clean:
 .PHONY: install
 
 install: all
-	copy $(TARGET) $(ISCS_SRC_HOME)\out\lib
+	copy $(TARGET) c:\Windows\lib
 	
